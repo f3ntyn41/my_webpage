@@ -3,51 +3,800 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Content Creator - Portfolio</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>f3ntyn41 — PRO GAMER</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Barlow+Condensed:wght@400;700;900&family=Rajdhani:wght@300;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --neon-cyan: #00f5ff;
+            --neon-red: #ff4fa3;
+            --neon-yellow: #ffe600;
+            --bg-dark: #030609;
+            --bg-card: #080e14;
+            --bg-mid: #0a1520;
+            --text: #c8d8e8;
+            --grid-color: rgba(0, 245, 255, 0.04);
+            --glow-cyan: 0 0 10px #00f5ff, 0 0 30px rgba(0,245,255,0.3);
+            --glow-red: 0 0 10px #ff4fa3, 0 0 30px rgba(255,79,163,0.3);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 18px;
+            overflow-x: hidden;
+            cursor: crosshair;
+        }
+
+        /* ── SCANLINE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(0,0,0,0.08) 2px,
+                rgba(0,0,0,0.08) 4px
+            );
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── GRID BG ── */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 3rem;
+            background: rgba(3,6,9,0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(0,245,255,0.15);
+        }
+
+        .nav-logo {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.1rem;
+            color: var(--neon-cyan);
+            letter-spacing: 0.1em;
+            text-shadow: var(--glow-cyan);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        nav ul a {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+            transition: color 0.2s, text-shadow 0.2s;
+        }
+
+        nav ul a:hover {
+            color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
+        }
+
+        /* ── HERO ── */
+        #home {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 0 8vw;
+            overflow: hidden;
+        }
+
+        .hero-bg-glow {
+            position: absolute;
+            top: -20%;
+            right: -10%;
+            width: 60vw;
+            height: 80vh;
+            background: radial-gradient(ellipse at center, rgba(0,245,255,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-bg-glow-red {
+            position: absolute;
+            bottom: -10%;
+            left: -5%;
+            width: 40vw;
+            height: 60vh;
+            background: radial-gradient(ellipse at center, rgba(255,79,163,0.05) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-tag {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            color: var(--neon-red);
+            text-transform: uppercase;
+            margin-bottom: 1.2rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.3s;
+        }
+
+        .hero-tag::before { content: '// '; opacity: 0.5; }
+
+        h1.glitch {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: clamp(5rem, 14vw, 13rem);
+            line-height: 0.9;
+            text-transform: uppercase;
+            color: #fff;
+            letter-spacing: -0.02em;
+            position: relative;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.5s;
+        }
+
+        h1.glitch::before,
+        h1.glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        h1.glitch::before {
+            color: var(--neon-cyan);
+            animation: glitch1 3s infinite;
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+        }
+
+        h1.glitch::after {
+            color: var(--neon-red);
+            animation: glitch2 3s infinite;
+            clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+        }
+
+        @keyframes glitch1 {
+            0%, 90%, 100% { transform: translate(0); opacity: 0; }
+            91% { transform: translate(-4px, 2px); opacity: 0.8; }
+            93% { transform: translate(4px, -2px); opacity: 0.8; }
+            95% { transform: translate(-2px, 0); opacity: 0.8; }
+            97% { transform: translate(0); opacity: 0; }
+        }
+
+        @keyframes glitch2 {
+            0%, 88%, 100% { transform: translate(0); opacity: 0; }
+            89% { transform: translate(4px, -2px); opacity: 0.8; }
+            91% { transform: translate(-4px, 2px); opacity: 0.8; }
+            93% { transform: translate(2px, 0); opacity: 0.8; }
+            95% { transform: translate(0); opacity: 0; }
+        }
+
+        .hero-sub {
+            margin-top: 1.5rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1rem;
+            color: var(--neon-cyan);
+            letter-spacing: 0.08em;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 0.8s;
+        }
+
+        .hero-tags {
+            margin-top: 1.2rem;
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 1s;
+        }
+
+        .badge {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.3rem 0.8rem;
+            border: 1px solid;
+            position: relative;
+        }
+
+        .badge-cyan {
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+            box-shadow: inset 0 0 10px rgba(0,245,255,0.05), var(--glow-cyan);
+        }
+
+        .badge-red {
+            border-color: var(--neon-red);
+            color: var(--neon-red);
+            box-shadow: inset 0 0 10px rgba(255,0,60,0.05), var(--glow-red);
+        }
+
+        .hero-cta {
+            margin-top: 2.5rem;
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 1.2s;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--bg-dark);
+            background: var(--neon-cyan);
+            padding: 0.85rem 2.5rem;
+            text-decoration: none;
+            clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: var(--glow-cyan);
+        }
+
+        .btn-primary:hover {
+            background: #fff;
+            box-shadow: 0 0 20px rgba(0,245,255,0.7);
+        }
+
+        /* avatar floating */
+        .hero-avatar {
+            position: absolute;
+            right: 8vw;
+            bottom: 10%;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards 0.7s;
+        }
+
+        .hero-avatar img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: var(--glow-cyan), 0 0 60px rgba(0,245,255,0.15);
+            display: block;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .avatar-ring {
+            position: absolute;
+            inset: -16px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,245,255,0.2);
+            animation: spin 8s linear infinite;
+        }
+
+        .avatar-ring::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            width: 6px;
+            height: 6px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: var(--glow-cyan);
+            transform: translateX(-50%);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* scroll indicator */
+        .scroll-hint {
+            position: absolute;
+            bottom: 2rem;
+            left: 8vw;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.25em;
+            color: rgba(200,216,232,0.3);
+            opacity: 0;
+            animation: fadeUp 0.6s ease forwards 1.5s;
+        }
+
+        /* ── SECTION SHARED ── */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 8vw;
+        }
+
+        .section-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.3em;
+            color: var(--neon-red);
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+        }
+
+        .section-label::before { content: '// '; opacity: 0.5; }
+
+        h2.section-title {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            text-transform: uppercase;
+            line-height: 1;
+            letter-spacing: 0.02em;
+            margin-bottom: 2.5rem;
+            color: #fff;
+        }
+
+        h2.section-title span {
+            color: var(--neon-cyan);
+        }
+
+        /* ── DIVIDER ── */
+        .divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+            opacity: 0.2;
+            margin: 0 8vw;
+            width: calc(100% - 16vw);
+        }
+
+        /* ── ABOUT ── */
+        #about {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text p {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: rgba(200,216,232,0.7);
+            margin-bottom: 1.5rem;
+        }
+
+        .about-text strong {
+            color: var(--neon-cyan);
+            font-weight: 600;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1px;
+            background: rgba(0,245,255,0.1);
+        }
+
+        .stat-box {
+            background: var(--bg-card);
+            padding: 1.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 2px;
+            height: 0;
+            background: var(--neon-cyan);
+            transition: height 0.4s ease;
+        }
+
+        .stat-box:hover::before { height: 100%; }
+
+        .stat-number {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--neon-cyan);
+            line-height: 1;
+            text-shadow: var(--glow-cyan);
+        }
+
+        .stat-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: rgba(200,216,232,0.4);
+            text-transform: uppercase;
+            margin-top: 0.3rem;
+        }
+
+        /* ── CLIPS ── */
+        #content {
+            background: var(--bg-mid);
+        }
+
+        .clip-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(580px, 1fr));
+            gap: 2rem;
+        }
+
+        .clip-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0,245,255,0.08);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .clip-card:hover {
+            border-color: rgba(0,245,255,0.35);
+            box-shadow: 0 0 30px rgba(0,245,255,0.08);
+        }
+
+        .clip-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--neon-red), var(--neon-cyan));
+        }
+
+        .clip-card iframe {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border: none;
+        }
+
+        .clip-footer {
+            padding: 1rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(0,245,255,0.06);
+        }
+
+        .clip-label {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: rgba(200,216,232,0.35);
+            text-transform: uppercase;
+        }
+
+        .clip-link {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            color: var(--neon-cyan);
+            text-decoration: none;
+            transition: text-shadow 0.2s;
+        }
+
+        .clip-link:hover {
+            text-shadow: var(--glow-cyan);
+        }
+
+        /* ── TWITCH CTA ── */
+        #follow {
+            text-align: center;
+            padding: 8rem 8vw;
+        }
+
+        .twitch-cta-box {
+            max-width: 680px;
+            margin: 0 auto;
+            border: 1px solid rgba(0,245,255,0.1);
+            padding: 4rem 3rem;
+            position: relative;
+            background: var(--bg-card);
+        }
+
+        .twitch-cta-box::before,
+        .twitch-cta-box::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-color: var(--neon-cyan);
+            border-style: solid;
+        }
+
+        .twitch-cta-box::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+        .twitch-cta-box::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+
+        .twitch-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px #9146ff);
+        }
+
+        .twitch-cta-box h3 {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 0.8rem;
+        }
+
+        .twitch-cta-box p {
+            color: rgba(200,216,232,0.5);
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+        }
+
+        .btn-twitch {
+            display: inline-block;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #fff;
+            background: #9146ff;
+            padding: 0.85rem 2.5rem;
+            text-decoration: none;
+            clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 20px rgba(145,70,255,0.4);
+        }
+
+        .btn-twitch:hover {
+            background: #a970ff;
+            box-shadow: 0 0 35px rgba(145,70,255,0.7);
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            border-top: 1px solid rgba(0,245,255,0.08);
+            padding: 2rem 8vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-tag {
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            color: rgba(200,216,232,0.2);
+        }
+
+        .footer-name {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--neon-cyan);
+            text-shadow: var(--glow-cyan);
+        }
+
+        /* ── ANIMATIONS ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── CUSTOM CURSOR DOT ── */
+        .cursor-dot {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 99999;
+            transform: translate(-50%, -50%);
+            box-shadow: var(--glow-cyan);
+            transition: transform 0.08s;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 900px) {
+            nav { padding: 1rem 1.5rem; }
+            #about { grid-template-columns: 1fr; }
+            .clip-grid { grid-template-columns: 1fr; }
+            .hero-avatar { display: none; }
+            nav ul { gap: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#content">Content</a></li>-
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="home">
-            <h1>High School Content Creator</h1>
-            <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/e11f55e0-7fc9-4ad5-9e06-3f9006620eb5-profile_image-70x70.jpeg" alt="https://static-cdn.jtvnw.net/jtv_user_pictures/e11f55e0-7fc9-4ad5-9e06-3f9006620eb5-profile_image-70x70.jpeg" width="200" height="200">
-            <p>Welcome.</p>
-        </section>
-        <section id="about">
-            <h2>About Me</h2>
-            <p>I'm excited to share my interests with you:</p>
-            <ul>
-                <li>Playing video games on PC and console</li>
-            </ul>
-            <p>In the future, I hope to pursue a career in the gaming industry or as a content creator. </p>
-        </section>
-        <section id="content">
-            <h2>My Clips</h2>
-            <div class="clip-grid">
-                <!-- Add your clips here -->
-                <div class="clip">
-                    <iframe src="https://clips.twitch.tv/embed?clip=ExquisiteFaintPepperSMOrc-LVPAqZj0g1qC55Gf&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
-                    <p><a href="#">Link to clip on Twitch</a></p>
-                </div>
-                <div class="clip">
-                    <iframe src="https://clips.twitch.tv/embed?clip=CloudyLitigiousQuail4Head-4AGAgu4ku7MxLJZd&parent=www.example.com" frameborder="0" allowfullscreen="true" scrolling="no" height="378" width="620"></iframe>
-                    <p><a href="#">Link to clip on Twitch</a></p>
-                </div>
+
+<div class="cursor-dot" id="cursorDot"></div>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-logo">f3ntyn41.gg</div>
+    <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#content">Clips</a></li>
+        <li><a href="#follow">Follow</a></li>
+    </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+    <div class="hero-bg-glow"></div>
+    <div class="hero-bg-glow-red"></div>
+
+    <div class="hero-tag">Content Creator &amp; Pro Gamer</div>
+
+    <h1 class="glitch" data-text="f3ntyn41">f3ntyn41</h1>
+
+    <div class="hero-sub">&gt; COD · FORTNITE · MARVEL RIVALS · GTA5</div>
+
+    <div class="hero-tags">
+        <span class="badge badge-cyan">COD</span>
+        <span class="badge badge-red">Fortnite</span>
+        <span class="badge badge-cyan">Marvel Rivals</span>
+        <span class="badge badge-red">GTA5</span>
+        <span class="badge badge-cyan">Twitch</span>
+    </div>
+
+    <div class="hero-cta">
+        <a href="https://www.twitch.tv/f3ntyna1__" target="_blank" class="btn-primary">Watch Live</a>
+    </div>
+
+    <div class="hero-avatar">
+        <div class="avatar-ring"></div>
+        <img src="https://static-cdn.jtvnw.net/jtv_user_pictures/e11f55e0-7fc9-4ad5-9e06-3f9006620eb5-profile_image-70x70.jpeg" alt="f3ntyn41 avatar">
+    </div>
+
+    <div class="scroll-hint">[ scroll to explore ]</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="about-text">
+        <div class="section-label reveal">Identity</div>
+        <h2 class="section-title reveal">WHO IS <span>f3ntyn41</span></h2>
+        <p class="reveal">
+            High school gamer. <strong>Full-time competitor</strong>, part-time chaos agent. 
+            Whether I'm dropping kills in CoD, building in Fortnite, dunking in Marvel Rivals, 
+            or just vibing in GTA5 — the goal is always the same: <strong>dominate the lobby</strong>.
+        </p>
+        <p class="reveal">
+            Building my brand from the ground up. Clips don't lie. 
+            The grind is real and the <strong>future is gaming</strong>.
+        </p>
+    </div>
+    <div class="stats-grid reveal">
+        <div class="stat-box">
+            <div class="stat-number">FPS</div>
+            <div class="stat-label">Main Genre</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">BR</div>
+            <div class="stat-label">Secondary</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">PC</div>
+            <div class="stat-label">Platform</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Grindset</div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- CLIPS -->
+<section id="content">
+    <div class="section-label reveal">Highlights</div>
+    <h2 class="section-title reveal">MY <span>Clips</span></h2>
+    <div class="clip-grid">
+        <div class="clip-card reveal">
+            <iframe src="https://clips.twitch.tv/embed?clip=ExquisiteFaintPepperSMOrc-LVPAqZj0g1qC55Gf&parent=f3ntyna1__.github.io" allowfullscreen="true" scrolling="no"></iframe>
+            <div class="clip-footer">
+                <span class="clip-label">Clip 001 — Twitch</span>
+                <a href="https://clips.twitch.tv/ExquisiteFaintPepperSMOrc-LVPAqZj0g1qC55Gf" target="_blank" class="clip-link">[ view on twitch → ]</a>
             </div>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2026 High School Content Creator. All rights reserved.</p>
-    </footer>
-    <script src="script.js"></script>
+        </div>
+        <div class="clip-card reveal">
+            <iframe src="https://clips.twitch.tv/embed?clip=CloudyLitigiousQuail4Head-4AGAgu4ku7MxLJZd&parent=f3ntyna1__.github.io" allowfullscreen="true" scrolling="no"></iframe>
+            <div class="clip-footer">
+                <span class="clip-label">Clip 002 — Twitch</span>
+                <a href="https://clips.twitch.tv/CloudyLitigiousQuail4Head-4AGAgu4ku7MxLJZd" target="_blank" class="clip-link">[ view on twitch → ]</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- FOLLOW CTA -->
+<section id="follow">
+    <div class="twitch-cta-box reveal">
+        <div class="twitch-icon">🟣</div>
+        <h3>Watch f3ntyn41 Live</h3>
+        <p>drop a follow. join the community. witness the chaos.</p>
+        <a href="https://www.twitch.tv/f3ntyna1__" target="_blank" class="btn-twitch">Follow on Twitch</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-tag">© 2026 f3ntyn41 — All Rights Reserved</div>
+    <div class="footer-name">f3ntyn41</div>
+    <div class="footer-tag">Built different.</div>
+</footer>
+
+<script>
+    // Cursor dot
+    const dot = document.getElementById('cursorDot');
+    document.addEventListener('mousemove', e => {
+        dot.style.left = e.clientX + 'px';
+        dot.style.top = e.clientY + 'px';
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+            if (entry.isIntersecting) {
+                setTimeout(() => entry.target.classList.add('visible'), i * 80);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    reveals.forEach(el => observer.observe(el));
+</script>
+
 </body>
 </html>
