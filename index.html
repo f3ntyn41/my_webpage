@@ -472,6 +472,13 @@
             background: linear-gradient(90deg, var(--neon-red), var(--neon-cyan));
         }
 
+        .clip-card video {
+            display: block;
+            width: 100%;
+            aspect-ratio: 16/9;
+            background: #000;
+        }
+
         .clip-card iframe {
             display: block;
             width: 100%;
@@ -742,14 +749,18 @@
     <h2 class="section-title reveal">MY <span>Clips</span></h2>
     <div class="clip-grid">
         <div class="clip-card reveal">
-            <iframe src="https://clips.twitch.tv/embed?clip=ExquisiteFaintPepperSMOrc-LVPAqZj0g1qC55Gf&parent=f3ntyn41.github.io" allowfullscreen="true" scrolling="no"></iframe>
+            <video controls preload="metadata" poster="">
+                <source src="20250421_ExquisiteFaintPepperSMOrc-LVPAqZj0g1qC55Gf_source__1_.mp4" type="video/mp4">
+            </video>
             <div class="clip-footer">
                 <span class="clip-label">Clip 001 — Twitch</span>
                 <a href="https://clips.twitch.tv/ExquisiteFaintPepperSMOrc-LVPAqZj0g1qC55Gf" target="_blank" class="clip-link">[ view on twitch → ]</a>
             </div>
         </div>
         <div class="clip-card reveal">
-            <iframe src="https://clips.twitch.tv/embed?clip=CloudyLitigiousQuail4Head-4AGAgu4ku7MxLJZd&parent=f3ntyn41.github.io" allowfullscreen="true" scrolling="no"></iframe>
+            <video controls preload="metadata" poster="">
+                <source src="20250330_CloudyLitigiousQuail4Head-4AGAgu4ku7MxLJZd_source.mp4" type="video/mp4">
+            </video>
             <div class="clip-footer">
                 <span class="clip-label">Clip 002 — Twitch</span>
                 <a href="https://clips.twitch.tv/CloudyLitigiousQuail4Head-4AGAgu4ku7MxLJZd" target="_blank" class="clip-link">[ view on twitch → ]</a>
